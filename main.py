@@ -18,7 +18,7 @@ class Simulation:
 
 
         self.bodies = [self.earth, self.mars, self.sun, self.saturn, self.mercury,
-                        self.venus, self.jupiter, self.uranus, self.neptune, self.moon]
+                        self.venus, self.jupiter, self.uranus, self.neptune]
 
 
     def update_sim(self):
