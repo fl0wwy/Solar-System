@@ -91,11 +91,5 @@ class Planet(Celestial):
     def update(self, celestials):
         self.draw_orbit()
         self.draw()    
-        self.update_position(celestials)
-        
-
-class Moon(Celestial):
-    def __init__(self, x, y, mass, radius, position, display, color) -> None:
-        super().__init__(x, y, mass, radius, position, display, color)
-
+        self.update_position(celestials)  
               
