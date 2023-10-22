@@ -15,7 +15,6 @@ class Simulation:
         self.jupiter = Planet(-5.2, 0, 1898.60 * 10**24, 10000, self.WIN, '#d0a47a', 13.1)
         self.uranus = Planet(19.2, 0, 86.62 * 10**24, 8000, self.WIN, '#8dc9ee', 6.8)
         self.neptune = Planet(-30.06, 0, 102.42 * 10**24, 7500, self.WIN, '#1f2255', 5.4) 
-        self.moon = Moon(-1.01, 0, 7.35 * 1022, 1737.4, self.WIN, 'azure2', 1.02, self.earth)
 
 
         self.bodies = [self.earth, self.mars, self.sun, self.saturn, self.mercury,
