@@ -23,3 +23,6 @@ https://www.jpl.nasa.gov/edu/pdfs/scaless_reference.pdf
 
 Chat-GPT for physics
 
+![Solar System Screenshot](./assets/solar_system.png)
+
+
