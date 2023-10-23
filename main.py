@@ -21,11 +21,13 @@ class Simulation:
                         self.venus, self.jupiter, self.uranus, self.neptune]
 
 
-    def update_sim(self):
+    def update_sim(self) -> None:
+        """Updates display and sets fps
+        """
         pg.display.update()
         self.CLOCK.tick(60)
 
-    def check_events(self):
+    def check_events(self) -> None:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
@@ -33,7 +35,9 @@ class Simulation:
             if event.type == pg.KEYDOWN:
                 self.resize_display() 
 
-    def resize_display(self):
+    def resize_display(self) -> None:
+        """Resize window dimensions using arrow keys
+        """
         width, height = self.WIN.get_width(), self.WIN.get_height()
         if pg.key.get_pressed()[pg.K_UP]:
             height += 100
@@ -46,8 +50,7 @@ class Simulation:
 
         self.WIN = pg.display.set_mode((width, height))              
 
-
-    def run(self):
+    def run(self) -> None:
         while True:
             self.check_events()
             self.WIN.fill('black')
@@ -58,8 +61,6 @@ class Simulation:
                     body.update(self.bodies)  
 
             self.update_sim()                    
-
-
 
 if __name__ == "__main__":
     sim = Simulation()
