@@ -17,7 +17,7 @@ class Celestial(ABC):
     TIMESTEP = 3600*24 # seconds in a day
     G = 6.67430e-11 # gravitational constant
 
-    def __init__(self, x: float, y: float, mass: float, radius: float, display: Any, color: Any) -> None:
+    def __init__(self, x: float, y: float, mass: float, radius: float, display: Any, color: Any, name: str) -> None:
         super().__init__()
 
         self.mass = mass
@@ -33,13 +33,16 @@ class Celestial(ABC):
         self.display = display
         self.color = color
 
+        self.orbit_scale = 1496000000 # 1AU = 100px default value
+        self.name = name
+
         self.SCALE = 1 # arbitrary constant number to scale actual radius of the celestial object to fit the simulation dimensions
 
     def draw(self) -> None:
         """Draws the body on the display to scale
         """
-        x = self.x / 1496000000 + (self.display.get_width() / 2) # 1AU = 100px
-        y = self.y / 1496000000 + (self.display.get_height() / 2) # 1AU = 100px
+        x = self.x / self.orbit_scale + (self.display.get_width() / 2)
+        y = self.y / self.orbit_scale + (self.display.get_height() / 2)
         pg.draw.circle(self.display, self.color, (x, y), self.radius / self.SCALE) 
 
     def format_number(self, number: int) -> str:
@@ -57,8 +60,8 @@ class Star(Celestial):
     Represents a star at the center of the solar system
 
     """
-    def __init__(self, x, y, mass, radius, display, color) -> None:
-        super().__init__(x, y, mass, radius, display, color)
+    def __init__(self, x, y, mass, radius, display, color, name) -> None:
+        super().__init__(x, y, mass, radius, display, color, name)
         self.SCALE = 30000
 
 
@@ -70,8 +73,8 @@ class Planet(Celestial):
     velocity - The oribtal speed of the planet around its star in km/s
 
     """
-    def __init__(self, x, y, mass, radius, display, color, velocity: float) -> None:
-        super().__init__(x, y, mass, radius, display, color)
+    def __init__(self, x, y, mass, radius, display, color, velocity: float, name) -> None:
+        super().__init__(x, y, mass, radius, display, color, name)
         
         self.SCALE = 500
         self.vel_y = velocity * 1000 
@@ -129,24 +132,27 @@ class Planet(Celestial):
             updated_points = []
             for point in self.orbit:
                 x, y = point
-                x = x / 1496000000 + (self.display.get_width() / 2) # 1AU = 100px
-                y = y / 1496000000 + (self.display.get_height() / 2) # 1AU = 100px  
+                x = x / self.orbit_scale + (self.display.get_width() / 2)
+                y = y / self.orbit_scale + (self.display.get_height() / 2)  
                 updated_points.append((x, y))
             pg.draw.lines(self.display, self.color, False, updated_points, 3) 
 
-        if len(self.orbit) >= int(100 * (self.radius/6371)):
-            self.orbit.pop(0)     
+        if self.distance <= 500000000000:
+            if len(self.orbit) >= int(100 * (self.radius/6371)):
+                self.orbit.pop(0)     
 
     def distance_from_sun(self) -> None:
         """Draws the distance to the star in km
         """
-        x = self.x / 1496000000 + (self.display.get_width() / 2) # 1AU = 100px
-        y = self.y / 1496000000 + (self.display.get_height() / 2) # 1AU = 100px  
+        x = self.x / self.orbit_scale + (self.display.get_width() / 2)
+        y = self.y / self.orbit_scale + (self.display.get_height() / 2)  
         
         font = pg.font.SysFont('arial', 10)
-        render = font.render(f'{self.format_number(round(self.distance/1000))}km', True, 'white', (31, 31, 31))
+        dist = font.render(f'{self.format_number(round(self.distance/1000))}km', True, 'white', (31, 31, 31))
+        name = font.render(self.name.capitalize(), True, 'white', (31, 31, 31))
         
-        self.display.blit(render, (x,y))        
+        self.display.blit(name, (x, y - 10))
+        self.display.blit(dist, (x,y))        
 
     def update(self, celestials: list) -> None:
         """Executes all the functions of the class

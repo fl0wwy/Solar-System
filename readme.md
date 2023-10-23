@@ -8,8 +8,7 @@ The real radii for all celestial bodies were used to track data correctly but th
 
 One thing that really struck me while making this simulation was realizing just how huge the universe really is as i was perplexed to why
 the orbits of Jupiter and further away planets from sun were not visible in my simulation. Only after resizing my window so much i was able to see Jupiter and Saturn, spreading it across my 2 monitors i was even able to catch Uranus.
-You can use the arrow keys to scale up and down the window as you please to try and find further away orbits.
-let me know if you have enough monitors to spot tiny Pluto :D
+You can use the arrow up/down keys to scale the simulation to look at all the orbits.
 
 I hope you have fun messing around with this as i think of more stuff to add to it.
 
