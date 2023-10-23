@@ -103,7 +103,7 @@ class Planet(Celestial):
         y = self.y / 1496000000 + (self.display.get_height() / 2)  
         
         font = pg.font.SysFont('arial', 10)
-        render = font.render(f'{self.format_number(round(self.distance/1000))}km', True, 'white', pg.Color(31, 31, 31))
+        render = font.render(f'{self.format_number(round(self.distance/1000))}km', True, 'white', (31, 31, 31))
         
         self.display.blit(render, (x,y))        
 

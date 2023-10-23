@@ -17,7 +17,6 @@ class Simulation:
         self.uranus = Planet(19.2, 0, 86.62 * 10**24, 8000, self.WIN, '#8dc9ee', 6.8)
         self.neptune = Planet(-30.06, 0, 102.42 * 10**24, 7500, self.WIN, '#1f2255', 5.4) 
 
-
         self.bodies = [self.earth, self.mars, self.sun, self.saturn, self.mercury,
                         self.venus, self.jupiter, self.uranus, self.neptune]
 
@@ -31,6 +30,22 @@ class Simulation:
             if event.type == pg.QUIT:
                 pg.quit()
                 exit()
+            if event.type == pg.KEYDOWN:
+                self.resize_display() 
+
+    def resize_display(self):
+        width, height = self.WIN.get_width(), self.WIN.get_height()
+        if pg.key.get_pressed()[pg.K_UP]:
+            height += 100
+        elif pg.key.get_pressed()[pg.K_DOWN]:
+            height -= 100    
+        elif pg.key.get_pressed()[pg.K_LEFT]:
+            width -= 100    
+        elif pg.key.get_pressed()[pg.K_RIGHT]:
+            width += 100  
+
+        self.WIN = pg.display.set_mode((width, height))              
+
 
     def run(self):
         while True:
