@@ -2,6 +2,7 @@ from celestial import *
 
 class Simulation:
     def __init__(self) -> None:
+        pg.init()
         self.WIN = pg.display.set_mode((800, 800))
         self.CLOCK = pg.time.Clock()
         pg.display.set_caption("Solar System")

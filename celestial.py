@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pygame as pg
 import math
+import locale
 
 class Celestial(ABC):
     AU = 149600000000 # 1AU km's
@@ -28,7 +29,16 @@ class Celestial(ABC):
     def draw(self):
         x = self.x / 1496000000 + (self.display.get_width() / 2)
         y = self.y / 1496000000 + (self.display.get_height() / 2) 
-        pg.draw.circle(self.display, self.color, (x, y), self.radius / self.SCALE)      
+        pg.draw.circle(self.display, self.color, (x, y), self.radius / self.SCALE) 
+
+    def format_number(self, number):
+        # Set the locale to the user's default for proper formatting
+        locale.setlocale(locale.LC_ALL, '')
+
+        # Format the number with commas as thousands separators
+        formatted_number = locale.format_string("%d", number, grouping=True)
+
+        return formatted_number         
 
 
 class Star(Celestial):
@@ -88,8 +98,18 @@ class Planet(Celestial):
         if len(self.orbit) >= int(100 * (self.radius/6371)):
             self.orbit.pop(0)     
 
+    def distance_from_sun(self):
+        x = self.x / 1496000000 + (self.display.get_width() / 2)
+        y = self.y / 1496000000 + (self.display.get_height() / 2)  
+        
+        font = pg.font.SysFont('arial', 10)
+        render = font.render(f'{self.format_number(round(self.distance/1000))}km', True, 'white', pg.Color(31, 31, 31))
+        
+        self.display.blit(render, (x,y))        
+
     def update(self, celestials):
         self.draw_orbit()
         self.draw()    
         self.update_position(celestials)  
+        self.distance_from_sun()
               
